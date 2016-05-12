@@ -1,5 +1,7 @@
-# YAHRP Yet Another Hopeful Reepca Project - this one is an attempt to make a
-little runescape-like game.
+# YAHRP
+
+Yet Another Hopeful Reepca Project - this one is an attempt to make a little
+runescape-like game.
 
 So far, the general idea looks like this:
 
