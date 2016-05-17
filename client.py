@@ -21,7 +21,7 @@ def run():
 		print(SDL_GetError())
 		return -1
 
-	SDL_GL_SetAttribute(SDL_GL_CONTEXT_MAJOR_VERSION, 3)
+	SDL_GL_SetAttribute(SDL_GL_CONTEXT_MAJOR_VERSION, 2)
 	SDL_GL_SetAttribute(SDL_GL_CONTEXT_MINOR_VERSION, 1)
 	SDL_GL_SetAttribute(SDL_GL_CONTEXT_PROFILE_MASK,
     					SDL_GL_CONTEXT_PROFILE_CORE)
@@ -34,8 +34,8 @@ def run():
 			if event.type == SDL_QUIT:
 				running = False
 
-		GL.glClearColor(1, 1, 0, 1)
-		GL.glClear(GL.GL_COLOR_BUFFER_BIT | GL.GL_DEPTH_BUFFER_BIT)
+		GL.glClearColor(0, 0, 0, 1)
+		GL.glClear(GL.GL_COLOR_BUFFER_BIT)
 		GL.glColor3f(0, 1, 1)
 		GL.glMatrixMode(GL.GL_PROJECTION)
 		GL.glLoadIdentity()
@@ -44,7 +44,7 @@ def run():
 		
 		GL.glPushMatrix()
 		GL.glTranslatef(25, 25, 0)
-		GLUT.glutWireSphere(25, 1000, 10)
+		#GLUT.glutWireSphere(25, 1000, 10)
 		#GL.glBegin(GL.GL_LINES)
 		#GL.glVertex2i(0, 0)
 		#GL.glVertex2i(0, 50)
