@@ -1,0 +1,48 @@
+The general idea is that client and server will communicate using the conspack
+protocol for encoding and decoding objects.
+ 
+(note: "slots" is the Common Lisp term for what other languages might refer to
+as fields, attributes, or members. For all practical purposes it is a named part
+of a struct)
+ 
+1. ACTIONS
+ 
+Actions are basically remote procedure calls. They are the client's (and by
+extension the player's) interface to influencing the game. Actions are specified
+as a tmap of type ACTION-SPECIFICATION, with a slot SPEC and a slot NAME. SPEC
+will contain a list consisting of parameter specifiers. They can either specify
+a symbol that denotes the type of the object or an r-ref that specifies an
+object (similar to an eql specifier in common lisp, which is exactly why I'm
+making it this way). NAME will contain a string. ACTION-SPECIFICATION will be a
+subclass of REMOTE-OBJECT, and so can be removed the same way. After an action
+has been removed, it is no longer available for the client to use, and should be
+treated as such. Note that multiple actions may have the same name, but
+different IDs (see below for explanation of REMOTE-OBJECT).
+ 
+2. OBJECTS
+ 
+Certain objects that should have their identity tracked will be a subclass of
+REMOTE-OBJECT, represented as a tmap in conspack. When decoding objects, if they
+are of class (or subclass of) REMOTE-OBJECT, they will have a slot called ID
+containing a number. This will be unique for objects during their lifetime, and
+the object should be accessible using this ID during its lifetime. Their
+lifetime is ended when a tmap of type OBJECT-CLEAR is sent, which will have a
+single slot also called ID. It will either be a number or a list of numbers
+representing the IDs of objects that can be safely cleared now and re-used
+later.
+ 
+3. CLASSES
+ 
+Classes will be communicated with a tmap of type CLASS-DEFINITION. "Class" here
+is associated with a type and a set of slots. CLASS-DEFINITION itself has two
+slots: a list of superclasses and a list of slots belonging to the class
+itsel. Both superclasses and slots are specified using symbols.  Standard
+classes the client can use to generically interact with kinds of objects will be
+specified at a later time, but they are necessary in order for the client to be
+able to properly handle the various kinds of objects. The primary reason for
+classes to be communicated at run-time is, firstly, to make it easier for the
+server to use its own object-oriented facilities without having to jump through
+hoops to convert it to some special form the client can understand. The second
+is to be able to distinguish which objects actions are applicable to easily and
+arbitrarily. An object of a class will contain the slots of all of its
+superclasses and the listed slots in its CLASS-DEFINITION.
