@@ -24,3 +24,43 @@
 # properties, eating dogs, segfaulting, etc.
 
 
+def render(obj, cameraStuff, environment):
+    """obj - the object to render. This should probably be an instance of some
+    class that we'll think up later, after we've already decided how we're
+    going to use it. It'll have mesh data with references to
+    materials/textures/etc, maybe some other stuff.
+
+    cameraStuff - either a dictionary containing camera info (where the eye is,
+    where we're looking at, what the field of view is, etc) or, again, some
+    instance of a class we think up after we've decided how we're going to use
+    it. Yay for top-down design. NAME MAY BE SUBJECT TO CHANGE.
+
+    environment - right now I think this should mostly be lighting. I can't
+    think of anything else at the moment, but if there's anything else that
+    affects how the object is drawn that shouldn't be associated with the
+    object itself, it should go here."""
+
+    # Bind the vertex data to an openGL Vertex Buffer Object if it isn't
+    # already bound. The GLint used to represent that Vertex Buffer Object
+    # should be kept with the object (obj) itself.
+
+    # we can set up shaders here, but it might be wasteful - the shaders
+    # shouldn't need to be set up each time something is drawn. Perhaps things
+    # like "currently active shader" and such should be kept in a class that
+    # this is a method of?
+
+    # So now we have the vertex data on the GPU and the program for drawing on
+    # the GPU. But there's still some more necessary - the shader output
+    # depends not only on the vertices themselves, but also on data that should
+    # be shared across all of the running instances of the shader. This kind of
+    # data is called a "uniform". Here we should send "uniform" information
+    # about the camera and maybe lighting stuff to the GPU as well.
+
+    # Make the vertex data the active buffer thing.
+
+    # Run glDrawArrays(). This will use the implicit shader, the implicit
+    # uniforms, and the implicit (it kind of bugs me how implicit everything is
+    # in openGL) bound vertex buffer to do some drawing.
+
+    # Is there anything we need to do to cleanup after rendering a single
+    # object? I can't think of anything. Guess we're done at this point.
