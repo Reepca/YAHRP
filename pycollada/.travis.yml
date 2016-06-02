@@ -1,0 +1,22 @@
+language: python
+
+env:
+  - DEPS=""
+  - DEPS="lxml"
+
+python:
+  - 2.6
+  - 2.7
+  - 3.2
+  - 3.3
+  - 3.4
+
+install:
+  # temporary workaround for numpy failing in virtualenv
+  # https://github.com/travis-ci/travis-cookbooks/issues/48#issuecomment-10843018
+  - export PYTHONIOENCODING=UTF8 # just in case
+  - pip install numpy
+  - pip install $DEPS
+  - python setup.py install
+
+script: python collada
